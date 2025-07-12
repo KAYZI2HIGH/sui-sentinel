@@ -39,53 +39,18 @@ export function HeroSection() {
         </div>
         <section>
           <div className="relative pt-24 md:pt-36">
-            <AnimatedGroup
-              variants={{
-                container: {
-                  visible: {
-                    transition: {
-                      delayChildren: 1,
-                    },
-                  },
-                },
-                item: {
-                  hidden: {
-                    opacity: 0,
-                    y: 20,
-                  },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      type: "spring",
-                      bounce: 0.3,
-                      duration: 2,
-                    },
-                  },
-                },
-              }}
-              className="absolute inset-0 -z-20"
-            >
-              <img
-                src="https://ik.imagekit.io/lrigu76hy/tailark/night-background.jpg?updatedAt=1745733451120"
-                alt="background"
-                className="absolute inset-x-0 top-56 -z-20 hidden lg:top-32 dark:block"
-                width="3276"
-                height="4095"
-              />
-            </AnimatedGroup>
             <div
               aria-hidden
               className="absolute inset-0 -z-10 size-full [background:radial-gradient(125%_125%_at_50%_100%,transparent_0%,var(--background)_75%)]"
             />
             <div className="mx-auto max-w-7xl px-6">
-              <div className="text-center sm:mx-auto lg:mr-auto lg:mt-0">
+              <div className="md:text-center sm:mx-auto lg:mr-auto lg:mt-0">
                 <AnimatedGroup variants={transitionVariants}>
                   <Link
                     href="#link"
-                    className="hover:bg-background dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-full border p-1 pl-4 shadow-md shadow-black/5 transition-all duration-300 dark:border-t-white/5 dark:shadow-zinc-950"
+                    className="hover:bg-background dark:hover:border-t-border bg-muted group md:mx-auto flex w-fit items-center gap-4 rounded-full border p-1 pl-4 shadow-md shadow-black/5 transition-all duration-300 dark:border-t-white/5 dark:shadow-zinc-950"
                   >
-                    <span className="text-foreground text-sm">
+                    <span className="text-foreground text-xs sm:text-sm">
                       Introducing Support for AI Models
                     </span>
                     <span className="dark:border-background block h-4 w-0.5 border-l bg-white dark:bg-zinc-700"></span>
@@ -102,10 +67,10 @@ export function HeroSection() {
                     </div>
                   </Link>
 
-                  <h1 className="mt-8 max-w-4xl mx-auto text-balance text-6xl md:text-7xl  xl:text-[5.25rem]">
+                  <h1 className="mt-8 max-md:mt-4 max-w-4xl mx-auto md:text-balance text-4xl sm:text-5xl md:text-6xl xl:text-[5.25rem]">
                     Modern Event Tracking for Web3 Projects
                   </h1>
-                  <p className="mx-auto mt-8 max-w-2xl text-balance text-lg">
+                  <p className="mx-auto mt-8 max-md:mt-4 max-w-2xl text-balance text-base sm:text-lg">
                     A unified monitoring tool for smart contracts, wallets, and
                     Web2 services — made for developers who want speed and
                     clarity.
@@ -124,33 +89,22 @@ export function HeroSection() {
                     },
                     ...transitionVariants,
                   }}
-                  className="mt-12 flex flex-col items-center justify-center gap-2 md:flex-row"
+                  className="mt-6 max-md:mt-4 flex flex-col md:items-center justify-center gap-2 md:flex-row"
                 >
                   <div
                     key={1}
-                    className="bg-foreground/10 rounded-[14px] border p-0.5"
+                    className="w-fit bg-foreground/10 rounded-[14px] border"
                   >
                     <Button
                       asChild
                       size="lg"
-                      className="rounded-xl px-5 text-base"
+                      className="w-52 rounded-md px-5 text-sm sm:text-base"
                     >
-                      <Link href="#link">
+                      <Link href="/auth">
                         <span className="text-nowrap">Start Tracking</span>
                       </Link>
                     </Button>
                   </div>
-                  <Button
-                    key={2}
-                    asChild
-                    size="lg"
-                    variant="ghost"
-                    className="h-10.5 rounded-xl px-5"
-                  >
-                    <Link href="#link">
-                      <span className="text-nowrap">Request a demo</span>
-                    </Link>
-                  </Button>
                 </AnimatedGroup>
               </div>
             </div>
@@ -198,7 +152,7 @@ export function HeroSection() {
             <div className="absolute inset-0 z-10 flex scale-95 items-center justify-center opacity-0 duration-500 group-hover:scale-100 group-hover:opacity-100">
               <Link
                 href="/"
-                className="block text-sm duration-150 hover:opacity-75"
+                className="block text-xs sm:text-sm duration-150 hover:opacity-75"
               >
                 <span> Meet Our Customers</span>
 

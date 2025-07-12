@@ -4,15 +4,16 @@ export function Features() {
     return (
       <section className="py-12 ">
         <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-16">
-          <div className="relative z-10 mx-auto max-w-4xl space-y-4 md:text-center md:space-y-8">
-            <h2 className="text-4xl font-medium lg:text-5xl">
+          <div className="relative z-10 mx-auto max-w-4xl space-y-4 md:space-y-8">
+            <h2 className="text-3xl md:text-5xl tracking-tighter font-regular max-md:text-balance">
               Built for Developers, Traders, and Teams
             </h2>
-            <p className="max-w-xl mx-auto">
+            <p className="text-lg max-w-xl lg:max-w-xl leading-relaxed tracking-tight text-muted-foreground">
               Designed for both Web3 and Web2 workflows, Sui Sentinel helps
-              builders stay ahead of what&apos;s happening across their apps, users,
-              and on-chain assets.
+              builders stay ahead of what&apos;s happening across their apps,
+              users, and on-chain assets.
             </p>
+           
           </div>
 
           <div className="relative mx-auto grid max-w-2xl lg:max-w-4xl divide-x divide-y border *:p-12 sm:grid-cols-2 lg:grid-cols-3 cursor-default">

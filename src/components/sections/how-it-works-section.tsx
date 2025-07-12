@@ -70,11 +70,11 @@ const HowItWorksSection = ({ steps = defaultSteps }: HowItWorksProps) => {
   return (
     <section className="py-20">
       <div className="max-w-[1000px]  mx-auto px-6">
-        <div className="mb-16 md:text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
+        <div className="mb-16 relative z-10 mx-auto max-w-4xl space-y-4 md:space-y-8">
+          <h2 className="text-3xl md:text-5xl tracking-tighter lg:max-w-xl font-regular font-semibold text-balance">
             How Sui Sentinel Works
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg max-w-xl lg:max-w-xl leading-relaxed tracking-tight text-muted-foreground">
             From setup to monitoring, discover how Sui Sentinel helps you stay
             on top of your Web3 and Web2 applications with comprehensive
             real-time monitoring and alerting.
