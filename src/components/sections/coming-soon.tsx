@@ -21,7 +21,7 @@ export const ComingSoon = () => {
                   Plans Coming Soon
                 </h4>
                 <p className="text-muted-foreground">
-                  We're launching with free and pro tiers for developers of all
+                  We&apos;re launching with free and pro tiers for developers of all
                   sizes. Get early access to Sui Sentinel.
                 </p>
                 <Button

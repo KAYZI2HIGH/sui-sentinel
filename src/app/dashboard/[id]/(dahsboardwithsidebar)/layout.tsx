@@ -1,7 +1,5 @@
-import { auth } from "@/auth";
 import AppSidebar from "@/components/custom-ui/AppSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { getProjects } from "@/lib/actions";
 
 export default async function DashboardWithSidebarLayout({
   children,

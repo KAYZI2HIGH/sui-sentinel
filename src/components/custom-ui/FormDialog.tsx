@@ -1,25 +1,21 @@
 "use client";
 
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Form
 } from "@/components/ui/form";
-import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm, UseFormReturn } from "react-hook-form";
 import * as z from "zod";
 import CustomTooltip from "./CustomTooltip";
 
@@ -28,13 +24,13 @@ interface FormDialogProps<T extends z.ZodTypeAny> {
   defaultValues: z.infer<T>;
   trigger: React.ReactNode;
   title: string;
-  onSubmit: (values: z.infer<T>) => void;
+  onSubmit: (values: z.infer<T>, close: () => void) => void;
   children:
     | ((form: UseFormReturn<z.infer<T>>) => React.ReactNode)
     | React.ReactNode;
   submitLabel?: string;
+  action?: React.ReactNode;
 }
-
 
 export function FormDialog<T extends z.ZodTypeAny>({
   schema,
@@ -44,14 +40,27 @@ export function FormDialog<T extends z.ZodTypeAny>({
   onSubmit,
   children,
   submitLabel = "Save",
+  action,
 }: FormDialogProps<T>) {
+  const [open, setOpen] = useState(false);
+
   const form = useForm<z.infer<T>>({
     resolver: zodResolver(schema),
     defaultValues,
   });
 
+  const handleSubmit = (values: z.infer<T>) => {
+    onSubmit(values, () => {
+      setOpen(false);
+      form.reset();
+    });
+  };
+
   return (
-    <Dialog>
+    <Dialog
+      open={open}
+      onOpenChange={setOpen}
+    >
       <CustomTooltip text={title}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
       </CustomTooltip>
@@ -62,26 +71,32 @@ export function FormDialog<T extends z.ZodTypeAny>({
 
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-4 py-4"
           >
             {typeof children === "function" ? children(form) : children}
 
             <DialogFooter>
-              <DialogClose asChild>
-                <Button
-                  variant="outline"
-                  type="button"
-                >
-                  Cancel
-                </Button>
-              </DialogClose>
-              <Button
-                type="submit"
-                disabled={form.formState.isSubmitting}
-              >
-                {submitLabel}
-              </Button>
+              {action ? (
+                action
+              ) : (
+                <>
+                  <DialogClose asChild>
+                    <Button
+                      variant="outline"
+                      type="button"
+                    >
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                  <Button
+                    type="submit"
+                    disabled={form.formState.isSubmitting}
+                  >
+                    {submitLabel}
+                  </Button>
+                </>
+              )}
             </DialogFooter>
           </form>
         </Form>

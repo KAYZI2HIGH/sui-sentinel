@@ -24,3 +24,6 @@ type Project = {
   network?: string;
   created_at: string;
 };
+
+type NewProject = Omit<Project, "id" | "created_at" | "user_id">;
+type NewCustomEvent = Omit<EventType, "id" | "created_at">;

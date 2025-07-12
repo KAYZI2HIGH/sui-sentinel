@@ -1,4 +1,4 @@
-import { Building2, Code, Cpu, Fingerprint, Globe, Pencil, Settings2, Shield, Sparkles, TrendingUp, Users, WholeWordIcon, Zap } from 'lucide-react'
+import { Building2, Code, Globe, Shield, TrendingUp, Users } from 'lucide-react';
 
 export function Features() {
     return (
@@ -10,7 +10,7 @@ export function Features() {
             </h2>
             <p className="max-w-xl mx-auto">
               Designed for both Web3 and Web2 workflows, Sui Sentinel helps
-              builders stay ahead of what's happening across their apps, users,
+              builders stay ahead of what&apos;s happening across their apps, users,
               and on-chain assets.
             </p>
           </div>

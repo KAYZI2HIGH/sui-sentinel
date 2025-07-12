@@ -21,9 +21,17 @@ export async function middleware(req: NextRequest) {
     );
   }
 
-  if (pathname.startsWith("/dashboard") && session?.user && project?.length === 0) {
-    return NextResponse.redirect(new URL(`/create-new-project`, req.url))
+  if (
+    pathname.startsWith("/dashboard") &&
+    pathname !== "/dashboard/create-new-project" &&
+    session?.user &&
+    project?.length === 0
+  ) {
+    return NextResponse.redirect(
+      new URL(`/dashboard/create-new-project`, req.url)
+    );
   }
+
 
   if (pathname.startsWith("/dashboard") && !session?.user) {
     return NextResponse.redirect(new URL("/auth", req.url));

@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { Logo } from "@/components/custom-ui/HeroHeader";
 import ProfileAvatar from "@/components/custom-ui/ProfileAvatar";
-import { Divide } from "lucide-react";
 import { notFound } from "next/navigation";
 import React from "react";
 

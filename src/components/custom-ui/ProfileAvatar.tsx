@@ -1,13 +1,19 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { cn } from "@/lib/utils";
 
-const ProfileAvatar = ({ name, image }: { name: string; image: string }) => {
+const ProfileAvatar = ({
+  name,
+  image,
+  className,
+}: {
+  name: string;
+  image: string;
+  className?: string
+}) => {
   return (
-    <Avatar>
-      <AvatarImage
-        src={image || ""}
-        className="size-10 rounded-full"
-      />
+    <Avatar className={cn("size-16 rounded-md", className)}>
+      <AvatarImage src={image || ""} />
       <AvatarFallback>
         {name &&
           name

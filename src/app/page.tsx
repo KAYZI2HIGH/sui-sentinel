@@ -5,13 +5,13 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { HowItWorksSection } from "@/components/sections/how-it-works-section";
 import { Features } from "@/components/sections/who-it-is-for";
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <HeroSection />
+      <Feature />
       <Features />
       <HowItWorksSection />
-      <Feature />
       <ComingSoon />
       <Footer/>
     </>

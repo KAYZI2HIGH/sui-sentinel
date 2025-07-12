@@ -2,7 +2,6 @@
 
 import * as React from "react";
 
-import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -18,21 +17,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ChevronRight } from "lucide-react";
-import Link from "next/link";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
-import CustomTooltip from "./CustomTooltip";
+import Link from "next/link";
 
 type ItemType = { url: string; title: string };
 
 export function ComboBox({
   children,
   item,
-  type,
   className,
 }: {
   children: React.ReactNode;
-  type?: "event" | "project";
   item: ItemType[];
   className?: string;
 }) {

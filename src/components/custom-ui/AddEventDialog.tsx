@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use client";
 
 import { z } from "zod";
@@ -22,11 +23,15 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
 import { CirclePlus } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { addEvent } from "@/lib/actions";
 
 const WEB3_EVENT_TEMPLATES = {
   "SUI Transfer": {
     targetModule: "0x2::coin::transfer",
     defaults: { receiver: "", sender: "" },
+    //eslint-disable-next-line
     validate: (data: any) => {
       if (!data.sender && !data.receiver) {
         return "Either sender or receiver must be provided.";
@@ -37,6 +42,7 @@ const WEB3_EVENT_TEMPLATES = {
   "NFT Mint": {
     targetModule: "0x3::nft::mint",
     defaults: { creator: "", smartContract: "" },
+    //eslint-disable-next-line
     validate: (data: any) => {
       if (!data.creator && !data.smartContract) {
         return "Either creator or smartContract must be provided.";
@@ -63,11 +69,6 @@ const WEB2_EVENT_TEMPLATES = {
   },
 } as const;
 
-const allProjects = [
-  { id: "p1", name: "FarmFi Mainnet", type: "web3" },
-  { id: "p2", name: "Webhook Tracker", type: "web2" },
-];
-
 const baseSchema = z.object({
   name: z.string().min(1, "Event name is required"),
   useCurrentProject: z.boolean(),
@@ -83,14 +84,29 @@ const baseSchema = z.object({
 export function AddEventDialog({
   currentProjectId,
   currentProjectType,
+  allProjects,
 }: {
   currentProjectId: string;
   currentProjectType: "web2" | "web3";
+  allProjects: Project[];
 }) {
   const [selectedType, setSelectedType] = useState<"web2" | "web3">(
     currentProjectType
   );
   const [formError, setFormError] = useState<string | null>(null);
+
+  const queryClient = useQueryClient();
+
+  const { mutate: createEvent } = useMutation({
+    mutationFn: (data: NewCustomEvent) => addEvent(data),
+    onSuccess: () => {
+      toast.success("Event created!");
+      queryClient.invalidateQueries({ queryKey: ["events"] });
+    },
+    onError: (err) => {
+      toast.error(err.message || "Something went wrong.");
+    },
+  });
 
   return (
     <FormDialog
@@ -104,10 +120,7 @@ export function AddEventDialog({
           selectedType === "web3"
             ? WEB3_EVENT_TEMPLATES["SUI Transfer"].targetModule
             : "",
-        slug:
-          selectedType === "web2"
-            ? WEB2_EVENT_TEMPLATES["Error"].slug
-            : "",
+        slug: selectedType === "web2" ? WEB2_EVENT_TEMPLATES["Error"].slug : "",
         sourceType: selectedType,
         active: true,
         description: "",
@@ -119,8 +132,9 @@ export function AddEventDialog({
           size={18}
         />
       }
-      onSubmit={(data) => {
+      onSubmit={(data, close) => {
         setFormError(null);
+
         if (selectedType === "web3") {
           const validator =
             WEB3_EVENT_TEMPLATES[
@@ -132,7 +146,32 @@ export function AddEventDialog({
             return;
           }
         }
-        console.log("Submitted event:", data);
+
+        const payload: NewCustomEvent = {
+          name: data.name,
+          project_id: data.projectId,
+          type: data.eventType,
+          source_type: data.sourceType,
+          active: data.active,
+          target_module: data.targetModule,
+          slug: data.slug,
+          description: data.description,
+        };
+
+        createEvent(payload, {
+          onSuccess: () => {
+            toast.success("Event created!");
+            queryClient.invalidateQueries({ queryKey: ["events"] });
+            close();
+          },
+          onError: (err) => {
+            if (err instanceof Error) {
+              toast.error(err.message);
+            } else {
+              toast.error("Something went wrong.");
+            }
+          },
+        });
       }}
     >
       {(form) => {
@@ -157,7 +196,10 @@ export function AddEventDialog({
             );
             if (selectedProject) {
               setSelectedType(selectedProject.type as "web2" | "web3");
-              form.setValue("sourceType", selectedProject.type as "web2" | "web3");
+              form.setValue(
+                "sourceType",
+                selectedProject.type as "web2" | "web3"
+              );
               form.setValue(
                 "eventType",
                 selectedProject.type === "web3" ? "SUI Transfer" : "Error"
@@ -177,7 +219,10 @@ export function AddEventDialog({
             template.targetModule !== undefined
           ) {
             form.setValue("targetModule", template.targetModule);
-            const defaults = (template as typeof WEB3_EVENT_TEMPLATES[keyof typeof WEB3_EVENT_TEMPLATES]).defaults || {};
+            const defaults =
+              (
+                template as (typeof WEB3_EVENT_TEMPLATES)[keyof typeof WEB3_EVENT_TEMPLATES]
+              ).defaults || {};
             Object.entries(defaults).forEach(([k, v]) => {
               form.setValue(k as keyof typeof baseSchema.shape, v);
             });
@@ -192,7 +237,13 @@ export function AddEventDialog({
         }, [eventType, selectedType, template]);
 
         const renderFields =
-          selectedType === "web3" && "defaults" in (template || {}) ? Object.keys((template as typeof WEB3_EVENT_TEMPLATES[keyof typeof WEB3_EVENT_TEMPLATES]).defaults || {}) : [];
+          selectedType === "web3" && "defaults" in (template || {})
+            ? Object.keys(
+                (
+                  template as (typeof WEB3_EVENT_TEMPLATES)[keyof typeof WEB3_EVENT_TEMPLATES]
+                ).defaults || {}
+              )
+            : [];
 
         return (
           <div className="space-y-6">
